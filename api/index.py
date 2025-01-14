@@ -5,7 +5,7 @@ from typing import Optional
 
 app = FastAPI(docs_url="/api/py/docs", openapi_url="/api/py/openapi.json")
 
-JSON_FILE_PATH = Path("src/meteodaten_2023_daily.json")
+JSON_FILE_PATH = Path("data/meteodaten_2023_daily.json")
 
 @app.get("/api/py/meteodaten")
 def get_meteodaten(
