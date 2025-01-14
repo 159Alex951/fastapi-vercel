@@ -7,7 +7,7 @@ const WeatherApp = () => {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    fetch("http://fastapi-vercel-ruddy.vercel.app/api/py/meteodaten")
+    fetch("api/py/meteodaten")
       .then((response) => {
         if (!response.ok) {
           throw new Error("Fehler beim Laden der Daten.");
@@ -33,11 +33,7 @@ const WeatherApp = () => {
     const location = event.target.value;
     setSelectedLocation(location);
 
-    fetch(
-      `https://fastapi-vercel-ruddy.vercel.app/api/py/meteodaten?location=${encodeURIComponent(
-        location
-      )}`
-    )
+    fetch(`/api/py/meteodaten?location=${encodeURIComponent(location)}`)
       .then((response) => {
         if (!response.ok) {
           throw new Error("Fehler beim Abrufen der gefilterten Daten.");
