@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-const WeatherApp = () => {
+export const WeatherApp = () => {
   const [locations, setLocations] = useState([]);
   const [selectedLocation, setSelectedLocation] = useState("");
   const [weatherData, setWeatherData] = useState([]);
@@ -93,4 +93,4 @@ const WeatherApp = () => {
   );
 };
 
-export default WeatherApp;
+// export default WeatherApp;

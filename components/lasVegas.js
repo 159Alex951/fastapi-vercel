@@ -2,7 +2,7 @@
 import React, { useEffect, useRef } from "react";
 import vegaEmbed from "vega-embed";
 
-const WeatherVegaLiteChart = ({ data }) => {
+export const WeatherVegaLiteChart = ({ data }) => {
   const chartRef = useRef(null);
 
   useEffect(() => {
@@ -38,4 +38,4 @@ const WeatherVegaLiteChart = ({ data }) => {
   return <div ref={chartRef}></div>;
 };
 
-export default WeatherVegaLiteChart;
+// export default WeatherVegaLiteChart;

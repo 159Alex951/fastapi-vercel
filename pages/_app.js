@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import WeatherVegaLiteChart from "../components/las-VEGAs";
-import WeatherApp from "../components/WeatherApp";
+// import WeatherVegaLiteChart from "../components/las-VEGAs";
+// import WeatherApp from "../components/WeatherApp";
+
+import { WeatherVegaLiteChart } from "../components/lasVegas";
+import { WeatherApp } from "../components/weatherapp";
 
 const Home = () => {
   const [weatherData, setWeatherData] = useState([]);
