@@ -92,5 +92,3 @@ export const WeatherApp = () => {
     </div>
   );
 };
-
-// export default WeatherApp;

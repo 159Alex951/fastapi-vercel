@@ -37,5 +37,3 @@ export const WeatherVegaLiteChart = ({ data }) => {
 
   return <div ref={chartRef}></div>;
 };
-
-// export default WeatherVegaLiteChart;
