@@ -8,8 +8,6 @@ const Home = () => {
   const [filteredData, setFilteredData] = useState([]);
   const [filters, setFilters] = useState({
     location: "",
-    temperature: "",
-    rainDuration: "",
   });
 
   useEffect(() => {
@@ -33,26 +31,6 @@ const Home = () => {
       );
     }
 
-    if (filters.temperature) {
-      filtered = filtered.filter((item) => {
-        if (filters.temperature === "below_0") return item.T < 0;
-        if (filters.temperature === "0_10") return item.T >= 0 && item.T <= 10;
-        if (filters.temperature === "10_20") return item.T > 10 && item.T <= 20;
-        if (filters.temperature === "above_20") return item.T > 20;
-        return true;
-      });
-    }
-
-    if (filters.rainDuration) {
-      filtered = filtered.filter((item) => {
-        if (filters.rainDuration === "below_60") return item.RainDur < 60;
-        if (filters.rainDuration === "60_120")
-          return item.RainDur >= 60 && item.RainDur <= 120;
-        if (filters.rainDuration === "above_120") return item.RainDur > 120;
-        return true;
-      });
-    }
-
     setFilteredData(filtered);
   }, [filters, weatherData]);
 
@@ -67,21 +45,12 @@ const Home = () => {
     <div>
       <h1>Wetterdaten Visualisierung</h1>
 
-      <div>
-        <h2>Temperaturdaten</h2>
+      <div style={{ marginBottom: "20px" }}>
+        <h2>Temperaturdaten (gefiltert nach Standort)</h2>
         <WeatherVegaLiteChart
-          data={weatherData}
+          data={filteredData}
           field="T"
           title="Temperaturen in °C"
-        />
-      </div>
-
-      <div>
-        <h2>Regendauer</h2>
-        <WeatherVegaLiteChart
-          data={weatherData}
-          field="RainDur"
-          title="Regendauer in Minuten"
         />
       </div>
 
