@@ -2,15 +2,15 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { WeatherVegaLiteChart } from "../components/lasVegas";
 import { WeatherFilters } from "../components/weatherFilter";
+import "../styles/darkmode.css";
 
 const Home = () => {
   const [weatherData, setWeatherData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [filters, setFilters] = useState({
     location: "",
-    temperature: "",
-    rainDuration: "",
   });
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
   useEffect(() => {
     axios
@@ -63,12 +63,35 @@ const Home = () => {
     }));
   };
 
+  const toggleDarkMode = () => {
+    setIsDarkMode((prevMode) => !prevMode);
+  };
+
   return (
-    <div>
-      <h1>Wetterdaten Visualisierung</h1>
+    <div className={isDarkMode ? "dark-mode" : ""}>
+      <header
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          padding: "10px",
+        }}
+      >
+        <h1>Wetterdaten Visualisierung</h1>
+        <label style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+          <span style={{ color: isDarkMode ? "#fff" : "#000" }}>Dark Mode</span>
+          <input
+            type="checkbox"
+            checked={isDarkMode}
+            onChange={toggleDarkMode}
+          />
+        </label>
+      </header>
 
       <div style={{ marginBottom: "20px" }}>
-        <h2>Temperaturdaten (gefiltert nach Standort)</h2>
+        <h2 style={{ color: isDarkMode ? "#fff" : "#000" }}>
+          Temperaturdaten (gefiltert nach Auswahl)
+        </h2>
         <WeatherVegaLiteChart
           data={filteredData}
           field="T"
@@ -77,7 +100,7 @@ const Home = () => {
       </div>
 
       <div>
-        <h2>Filter</h2>
+        <h2 style={{ color: isDarkMode ? "#fff" : "#000" }}>Filter</h2>
         <WeatherFilters
           filters={filters}
           onFilterChange={handleFilterChange}
@@ -88,21 +111,44 @@ const Home = () => {
       </div>
 
       <div>
-        <h2>Gefilterte Wetterdaten</h2>
-        <table>
+        <h2 style={{ color: isDarkMode ? "#fff" : "#000" }}>
+          Gefilterte Wetterdaten
+        </h2>
+        <table
+          style={{
+            width: "100%",
+            borderCollapse: "collapse",
+            backgroundColor: isDarkMode ? "#333" : "#fff",
+          }}
+        >
           <thead>
-            <tr>
-              <th>Standort</th>
-              <th>Temperatur (°C)</th>
-              <th>Regendauer (Minuten)</th>
+            <tr
+              style={{
+                backgroundColor: isDarkMode ? "#444" : "#ddd",
+                color: isDarkMode ? "#fff" : "#000",
+              }}
+            >
+              <th style={{ border: "1px solid", padding: "8px" }}>Standort</th>
+              <th style={{ border: "1px solid", padding: "8px" }}>
+                Temperatur (°C)
+              </th>
+              <th style={{ border: "1px solid", padding: "8px" }}>
+                Regendauer (Minuten)
+              </th>
             </tr>
           </thead>
           <tbody>
             {filteredData.map((item, index) => (
-              <tr key={index}>
-                <td>{item.Standortname}</td>
-                <td>{item.T}</td>
-                <td>{item.RainDur}</td>
+              <tr key={index} style={{ color: isDarkMode ? "#fff" : "#000" }}>
+                <td style={{ border: "1px solid", padding: "8px" }}>
+                  {item.Standortname}
+                </td>
+                <td style={{ border: "1px solid", padding: "8px" }}>
+                  {item.T}
+                </td>
+                <td style={{ border: "1px solid", padding: "8px" }}>
+                  {item.RainDur}
+                </td>
               </tr>
             ))}
           </tbody>
