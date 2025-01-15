@@ -1,4 +1,3 @@
-// components/WeatherVegaLiteChart.js
 import React, { useEffect, useRef } from "react";
 import vegaEmbed from "vega-embed";
 
@@ -13,13 +12,15 @@ export const WeatherVegaLiteChart = ({ data }) => {
         location: item.Standortname,
       }));
 
+      const markType = chartData.length < 75 ? "point" : "line"; // Dynamische Darstellung basierend auf Datenpunkten
+
       const spec = {
         $schema: "https://vega.github.io/schema/vega-lite/v5.json",
         description: "Temperature over time",
         data: {
           values: chartData,
         },
-        mark: "line",
+        mark: markType, // Nutzt entweder "point" oder "line"
         encoding: {
           x: { field: "date", type: "temporal", title: "Datum" },
           y: {
