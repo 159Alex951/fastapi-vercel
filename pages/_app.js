@@ -11,6 +11,7 @@ const Home = () => {
     location: "",
   });
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
 
   useEffect(() => {
     axios
@@ -56,6 +57,21 @@ const Home = () => {
     setFilteredData(filtered);
   }, [filters, weatherData]);
 
+  useEffect(() => {
+    if (sortConfig.key) {
+      const sortedData = [...filteredData].sort((a, b) => {
+        if (a[sortConfig.key] < b[sortConfig.key]) {
+          return sortConfig.direction === "asc" ? -1 : 1;
+        }
+        if (a[sortConfig.key] > b[sortConfig.key]) {
+          return sortConfig.direction === "asc" ? 1 : -1;
+        }
+        return 0;
+      });
+      setFilteredData(sortedData);
+    }
+  }, [sortConfig]);
+
   const handleFilterChange = (type, value) => {
     setFilters((prevFilters) => ({
       ...prevFilters,
@@ -65,6 +81,16 @@ const Home = () => {
 
   const toggleDarkMode = () => {
     setIsDarkMode((prevMode) => !prevMode);
+  };
+
+  const handleSort = (key) => {
+    setSortConfig((prevConfig) => {
+      const direction =
+        prevConfig.key === key && prevConfig.direction === "asc"
+          ? "desc"
+          : "asc";
+      return { key, direction };
+    });
   };
 
   return (
@@ -128,11 +154,44 @@ const Home = () => {
                 color: isDarkMode ? "#fff" : "#000",
               }}
             >
-              <th style={{ border: "1px solid", padding: "8px" }}>Standort</th>
-              <th style={{ border: "1px solid", padding: "8px" }}>
+              <th
+                style={{
+                  border: "1px solid",
+                  padding: "8px",
+                  cursor: "pointer",
+                }}
+                onClick={() => handleSort("Datum")}
+              >
+                Datum
+              </th>
+              <th
+                style={{
+                  border: "1px solid",
+                  padding: "8px",
+                  cursor: "pointer",
+                }}
+                onClick={() => handleSort("Standortname")}
+              >
+                Standort
+              </th>
+              <th
+                style={{
+                  border: "1px solid",
+                  padding: "8px",
+                  cursor: "pointer",
+                }}
+                onClick={() => handleSort("T")}
+              >
                 Temperatur (°C)
               </th>
-              <th style={{ border: "1px solid", padding: "8px" }}>
+              <th
+                style={{
+                  border: "1px solid",
+                  padding: "8px",
+                  cursor: "pointer",
+                }}
+                onClick={() => handleSort("RainDur")}
+              >
                 Regendauer (Minuten)
               </th>
             </tr>
@@ -140,6 +199,9 @@ const Home = () => {
           <tbody>
             {filteredData.map((item, index) => (
               <tr key={index} style={{ color: isDarkMode ? "#fff" : "#000" }}>
+                <td style={{ border: "1px solid", padding: "8px" }}>
+                  {new Date(item.Datum).toLocaleDateString()}
+                </td>
                 <td style={{ border: "1px solid", padding: "8px" }}>
                   {item.Standortname}
                 </td>
